@@ -1,7 +1,7 @@
 import argparse
 from service.loader import JsonDataLoader
-from service.renderer import JsonRenderer, XmlRenderer
-from service.core import App
+from service.core import StudentRoomApp
+from service.render_factory import RendererFactory
 
 
 def parse_args():
@@ -25,9 +25,9 @@ def main():
     args = parse_args()
 
     data_loader = JsonDataLoader()
-    renderer = JsonRenderer() if args.format == "json" else XmlRenderer()
+    renderer = RendererFactory.create_renderer(args.format)
 
-    app = App(data_loader, renderer)
+    app = StudentRoomApp(data_loader, renderer)
     app.run(args.students_file, args.rooms_file)
 
 
